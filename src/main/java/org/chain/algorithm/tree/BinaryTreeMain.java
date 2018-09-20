@@ -27,6 +27,10 @@ public class BinaryTreeMain {
         System.out.println(binarySearch(binarySearchTree, 52));
         System.out.println("******在二叉搜索树中搜索存在的值，53，预期输出：false");
         System.out.println(binarySearch(binarySearchTree, 53));
+//        System.out.println(findAndRemoveMinFromBST(binarySearchTree));
+        System.out.println("******测试删除节点******");
+        System.out.println(removeFromBST(binarySearchTree, null, 50));
+        bfsOrder(binarySearchTree);
     }
 
     /**
@@ -185,5 +189,79 @@ public class BinaryTreeMain {
             return binarySearch(binarySearchTree.getRightChild(), target);
         }
         return currData.compareTo(target) == 0;
+    }
+
+    /**
+     * BST(Binary Search Tree)
+     * 从拥有左孩子的节点中删除找出并删除最小节点
+     * 如果没有左孩子，则最小节点就是自己
+     *
+     * @param hadLeftChildNode
+     * @param <T>
+     * @return
+     */
+    private static <T extends Comparable<T>> BinaryTree<T> findAndRemoveMinFromBST(BinaryTree<T> hadLeftChildNode) {
+        BinaryTree<T> currNode = hadLeftChildNode.getLeftChild();
+        if (currNode.getLeftChild() == null) {
+            hadLeftChildNode.setLeftChild(null);
+            return currNode;
+        }
+        return findAndRemoveMinFromBST(currNode);
+    }
+
+
+    private static <T extends Comparable<T>> void removeNodeFromBST(BinaryTree<T> target, BinaryTree<T> parent) {
+        //如果是根节点
+        if (null == parent) {
+            target.setData(findAndRemoveMinFromBST(target.getRightChild()).getData());
+            return;
+        }
+        boolean flag = parent.getLeftChild() == target;
+        if (null == target.getLeftChild() && null == target.getRightChild()) {
+            if (flag) {
+                parent.setLeftChild(null);
+            } else {
+                parent.setRightChild(null);
+            }
+        }
+        if (null != target.getLeftChild() && null == target.getRightChild()) {
+            if (flag) {
+                parent.setLeftChild(target.getLeftChild());
+            } else {
+                parent.setRightChild(target.getLeftChild());
+            }
+        }
+        if (null == target.getLeftChild() && null != target.getRightChild()) {
+            target.setData(findAndRemoveMinFromBST(target).getData());
+            if (flag) {
+                parent.setLeftChild(target.getRightChild());
+            } else {
+                parent.setRightChild(target.getRightChild());
+            }
+        }
+    }
+
+    /**
+     * 从BST中删除节点
+     *
+     * @param curr
+     * @param parent
+     * @param data
+     * @param <T>
+     * @return
+     */
+    private static <T extends Comparable<T>> BinaryTree<T> removeFromBST(BinaryTree<T> curr, BinaryTree<T> parent, T data) {
+        if (curr == null) {
+            return null;
+        }
+        T currData = curr.getData();
+        if (currData.compareTo(data) > 0) {
+            return removeFromBST(curr.getLeftChild(), curr, data);
+        }
+        if (currData.compareTo(data) < 0) {
+            return removeFromBST(curr.getRightChild(), curr, data);
+        }
+        removeNodeFromBST(curr, parent);
+        return curr;
     }
 }

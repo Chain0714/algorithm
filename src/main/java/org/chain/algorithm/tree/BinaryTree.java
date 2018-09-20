@@ -42,6 +42,13 @@ public class BinaryTree<T extends Comparable<T>> {
         this.rightChild = rightChild;
     }
 
+    @Override
+    public String toString() {
+        return "BinaryTree{" +
+                "data=" + data +
+                '}';
+    }
+
     /**
      * 插入左节点
      *
