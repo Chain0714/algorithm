@@ -1,5 +1,6 @@
 package org.chain.algorithm.linknode;
-import	java.util.List;
+
+import java.util.Stack;
 
 /**
  * description:  Main
@@ -20,18 +21,42 @@ public class ReverseLinkedList {
         }
         System.out.println(head);
 
-        System.out.println(reverse(head));
+        System.out.println(reverse2(head));
     }
 
     private static ListNode reverse(ListNode head) {
         ListNode pre = null;
         ListNode next;
-        while (head != null){
+        while (head != null) {
             next = head.next;
             head.next = pre;
             pre = head;
             head = next;
         }
         return pre;
+    }
+
+    /**
+     * 利用栈(不推荐！！！)
+     *
+     * @param head
+     * @return
+     */
+    private static ListNode reverse2(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        Stack<ListNode> stack = new Stack<>();
+        while (head != null) {
+            stack.push(head);
+            head = head.next;
+        }
+        head = stack.pop();
+        ListNode r = head;
+        while (head != null) {
+            head.next = stack.size() > 0 ? stack.pop() : null;
+            head = head.next;
+        }
+        return r;
     }
 }
