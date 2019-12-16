@@ -1,10 +1,7 @@
 package org.chain.algorithm.queue;
 
-import org.apache.commons.lang.time.StopWatch;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Random;
 
 /**
  * description:  SlidingWindowMaximum
@@ -72,7 +69,7 @@ public class SlidingWindowMaximum {
     }
 
     /**
-     * 当k大时候，效率不佳
+     * 动态规划
      *
      * @param nums
      * @param k
@@ -88,13 +85,15 @@ public class SlidingWindowMaximum {
             j = i + k - 1;
             int maxPos = -1;
             maxes[i] = Math.max(maxNum(nums, maxPos, i, (i / k) * k + (k - 1)), maxNum(nums, maxPos, (j / k) * k, j));
-//            maxes[i] = Math.max(maxNum2(nums, i, (i / k) * k + (k - 1)), maxNum2(nums, (j / k) * k, j));
         }
         return maxes;
     }
 
     private int maxNum(int[] nums, int maxPos, int start, int end) {
-        if (maxPos >= start) {
+        if (maxPos != -1 && nums[end] >= nums[maxPos]) {
+            maxPos = end;
+            return nums[end];
+        } else if (start <= maxPos) {
             return nums[maxPos];
         } else {
             int maxVal = Integer.MIN_VALUE;
@@ -106,16 +105,6 @@ public class SlidingWindowMaximum {
             }
             return nums[maxPos];
         }
-    }
-
-    private int maxNum2(int[] nums, int start, int end) {
-        int max = nums[start];
-        for (int i = start; i <= end; i++) {
-            if (nums[i] > max) {
-                max = nums[i];
-            }
-        }
-        return max;
     }
 
     /**
@@ -214,37 +203,37 @@ public class SlidingWindowMaximum {
 
     public static void main(String[] args) {
         SlidingWindowMaximum slidingWindowMaximum = new SlidingWindowMaximum();
-        int size = 10000000;
-        int k = 1000;
-        int[] nums = new int[size];
-        Random r = new Random();
-        for (int i = 0; i < size; i++) {
-            nums[i] = r.nextInt();
-        }
-
-        StopWatch sw = new StopWatch();
-        sw.start();
-        slidingWindowMaximum.maxSlidingWindow(nums, k);
-        sw.stop();
-        System.out.println(sw.getTime());
-        sw.reset();
-
-        sw.start();
-        slidingWindowMaximum.maxSlidingWindow3(nums, k);
-        sw.stop();
-        System.out.println(sw.getTime());
-        sw.reset();
-
-        sw.start();
-        slidingWindowMaximum.maxSlidingWindow2(nums, k);
-        sw.stop();
-        System.out.println(sw.getTime());
-        sw.reset();
-
-//        int[] nums = {1, 3, -1, -3, 5, 3, 6, 7};
-//        int[] ints = slidingWindowMaximum.maxSlidingWindow1(nums, 3);
-//        for (int i : ints) {
-//            System.out.println(i);
+//        int size = 10000000;
+//        int k = 1000;
+//        int[] nums = new int[size];
+//        Random r = new Random();
+//        for (int i = 0; i < size; i++) {
+//            nums[i] = r.nextInt();
 //        }
+//
+//        StopWatch sw = new StopWatch();
+//        sw.start();
+//        slidingWindowMaximum.maxSlidingWindow(nums, k);
+//        sw.stop();
+//        System.out.println(sw.getTime());
+//        sw.reset();
+//
+//        sw.start();
+//        slidingWindowMaximum.maxSlidingWindow3(nums, k);
+//        sw.stop();
+//        System.out.println(sw.getTime());
+//        sw.reset();
+//
+//        sw.start();
+//        slidingWindowMaximum.maxSlidingWindow2(nums, k);
+//        sw.stop();
+//        System.out.println(sw.getTime());
+//        sw.reset();
+
+        int[] nums = {1, 3, -1, -3, 5, 3, 6, 7};
+        int[] ints = slidingWindowMaximum.maxSlidingWindow1(nums, 3);
+        for (int i : ints) {
+            System.out.println(i);
+        }
     }
 }
