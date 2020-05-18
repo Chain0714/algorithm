@@ -26,6 +26,10 @@ public class Solution {
         System.out.println(solution.maxProduct(new int[]{-2, 3, -4}));
     }
 
+    /**
+     * FMax(i) = Math.max(nums[i],FMax(i-1)*nums[i],FMin(i-1)*nums[i])
+     * FMin(i) = Math.Min(nums[i],FMax(i-1)*nums[i],FMin(i-1)*nums[i])
+     */
     public int maxProduct(int[] nums) {
         int maxF = nums[0], minF = nums[0], ans = nums[0];
         for (int i = 1; i < nums.length; ++i) {
