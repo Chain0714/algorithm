@@ -1,8 +1,5 @@
 package org.chain.daily.no974;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 974. 和可被 K 整除的子数组
@@ -35,15 +32,15 @@ public class Solution {
         if (null == A || A.length == 0 || K == 0) {
             return 0;
         }
-        Map<Integer, Integer> pos = new HashMap<>();
-        pos.put(0, 1);
+        int[] pos = new int[K];
+        pos[0] = 1;
         int res = 0;
         int sum = 0;
         for (int i = 0; i < A.length; i++) {
             sum += A[i];
-            int rem = sum % K;
-            res += pos.getOrDefault(rem, 0) + (rem > 0 ? pos.getOrDefault(rem - K, 0) : pos.getOrDefault(rem + K, 0));
-            pos.put(rem, pos.getOrDefault(rem, 0) + 1);
+            int rem = ((sum % K) + K) % K;
+            res += pos[rem];
+            pos[rem]++;
         }
         return res;
     }
