@@ -7,11 +7,11 @@ package org.chain.algorithm.linknode;
  * @version 1.0
  * @since 2019/12/5 9:00
  */
-class ListNode {
-    private int val;
-    ListNode next;
+public class ListNode {
+    public int val;
+    public ListNode next;
 
-    ListNode(int x) {
+    public ListNode(int x) {
         val = x;
     }
 
